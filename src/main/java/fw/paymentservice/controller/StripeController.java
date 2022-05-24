@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 @RestController
 @RequestMapping(value = "/api")
 public class StripeController {
@@ -20,9 +23,16 @@ public class StripeController {
         this.paymentService = paymentService;
     }
 
-    @PostMapping("/payment")
+    @PostMapping(value = "/payment")
     public String payPartnership(@RequestBody CheckoutPayment payment) throws StripeException {
        return paymentService.payPartnership(payment);
     }
+
+    @PostMapping(value = "/stripe-events")
+    public void postEventsWebhook(HttpServletRequest request, HttpServletResponse response) throws StripeException {
+        paymentService.postEventsWebhook(request, response);
+    }
+
+
 
 }
