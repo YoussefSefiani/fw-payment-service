@@ -75,6 +75,7 @@ public class PaymentService {
 
                 Event event = Webhook.constructEvent(payload, sigHeader, endpointSecret);
 
+
                 if ("charge.refunded".equalsIgnoreCase(event.getType())) {
 
                     Gson gson = new Gson();
@@ -84,6 +85,12 @@ public class PaymentService {
                 }
                 response.setStatus(200);
                 System.out.println(response);
+                System.out.println("OBJECT");
+                System.out.println(event.getObject());
+                System.out.println("DATA");
+                System.out.println(event.getData());
+                System.out.println("TYPE");
+                System.out.println(event.getType());
             }
         } catch (Exception e) {
             response.setStatus(500);
