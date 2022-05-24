@@ -41,6 +41,7 @@ public class PaymentService {
         responseData.put("id", session.getId());
         // We can return only the sessionId as a String
         return gson.toJson(responseData);
+
     }
 
     private static void init() {
