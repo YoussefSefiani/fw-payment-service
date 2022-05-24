@@ -78,6 +78,7 @@ public class PaymentService {
                     Gson gson = new Gson();
                     Charge charge = gson.fromJson(event.getData().getObject().toJson(), Charge.class);
                     // Call your service here with your Charge object.
+                    System.out.println(charge);
                 }
                 response.setStatus(200);
                 System.out.println(response);
@@ -85,6 +86,7 @@ public class PaymentService {
         } catch (Exception e) {
             response.setStatus(500);
             System.out.println(response);
+            System.out.println(e.getMessage());
         }
     }
 
