@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 @Service
 public class PaymentService {
 
-    @Value("${stripe.secretKey")
+    @Value("${stripe.secretKey}")
     String stripeApiKey;
 
     @Value("${stripe.secretWebHook}")
