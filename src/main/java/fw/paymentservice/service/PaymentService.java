@@ -80,9 +80,11 @@ public class PaymentService {
                     // Call your service here with your Charge object.
                 }
                 response.setStatus(200);
+                System.out.println(response);
             }
         } catch (Exception e) {
             response.setStatus(500);
+            System.out.println(response);
         }
     }
 
