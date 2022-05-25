@@ -2,19 +2,25 @@ package fw.paymentservice.service;
 
 import com.google.gson.Gson;
 import com.stripe.Stripe;
+import com.stripe.exception.SignatureVerificationException;
 import com.stripe.exception.StripeException;
 import com.stripe.model.Event;
 import com.stripe.model.checkout.Session;
 import com.stripe.net.Webhook;
 import com.stripe.param.checkout.SessionCreateParams;
+import fw.paymentservice.feign.PartnershipRestConsumer;
 import fw.paymentservice.model.CheckoutPayment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -28,7 +34,20 @@ public class PaymentService {
     @Value("${stripe.secretWebHook}")
     String stripeWebhookSecret;
 
-    public String payPartnership(CheckoutPayment payment) throws StripeException {
+    Long partnershipId;
+
+    private final PartnershipRestConsumer consumer;
+
+    @Autowired
+    public PaymentService(PartnershipRestConsumer consumer) {
+        this.consumer = consumer;
+    }
+
+
+    public String payPartnership(Long partnershipId, CheckoutPayment payment) throws StripeException {
+
+        this.partnershipId = partnershipId;
+
         Gson gson = new Gson();
         // We initialize stripe object with the api key
         init();
@@ -59,7 +78,7 @@ public class PaymentService {
 
     }
 
-    public HttpServletResponse postEventsWebhook(HttpServletRequest request, HttpServletResponse response) {
+        public void postEventsWebhook(HttpServletRequest request, HttpServletResponse response) throws SignatureVerificationException, IOException {
 
         Stripe.apiKey = stripeApiKey;
 
@@ -75,16 +94,16 @@ public class PaymentService {
                 Event event = Webhook.constructEvent(payload, sigHeader, endpointSecret);
 
                 if("checkout.session.completed".equalsIgnoreCase(event.getType())) {
-                    response.setStatus(200);
+                    System.out.println("partnership id is: " + partnershipId);
+                    consumer.validatePartnership(partnershipId);
                 } else {
-                    response.setStatus(500);
+                    throw new ResponseStatusException(HttpStatus.CONFLICT, "Error during payment");
                 }
             }
-        } catch (Exception e) {
+        } catch(Exception e) {
             response.setStatus(500);
         }
-        return response;
-    }
+        }
 
     private static void init() {
         Stripe.apiKey = "sk_test_51L2waTAKK7UhTIYhWZ0gap86miBgGOg7GX8NTKVum9cSyUdceoKrjFgrWhvAjBwVDQXz1wVq5aw6vCkyOOwSpBAS003FVAjo7e";
