@@ -23,5 +23,5 @@ stripe:
 
 app:
   services:
-    profile:
+    partnership:
       url: https://fw-partnership-service.herokuapp.com

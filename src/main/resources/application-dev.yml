@@ -24,5 +24,5 @@ stripe:
 
 app:
   services:
-    profile:
+    partnership:
       url: http://localhost:8082
