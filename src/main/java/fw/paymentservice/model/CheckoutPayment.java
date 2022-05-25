@@ -9,7 +9,7 @@ import lombok.*;
 @NoArgsConstructor
 public class CheckoutPayment {
 
-    private long partnershipId;
+    private Long partnershipId;
 
     private String name;
     private String currency;
