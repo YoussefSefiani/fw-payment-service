@@ -46,6 +46,8 @@ public class PaymentService {
 
     public String payPartnership(CheckoutPayment payment) throws StripeException {
 
+        this.partnershipId = payment.getPartnershipId();
+
         Gson gson = new Gson();
         // We initialize stripe object with the api key
         init();
