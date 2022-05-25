@@ -23,7 +23,7 @@ public class StripeController {
     }
 
     @PostMapping(value = "/payment")
-    public String payPartnership(CheckoutPayment payment) throws StripeException {
+    public String payPartnership(@RequestBody CheckoutPayment payment) throws StripeException {
        return paymentService.payPartnership(payment);
     }
 
