@@ -45,7 +45,7 @@ public class PaymentService {
 
 
     public String payPartnership(CheckoutPayment payment) throws StripeException {
-
+        System.out.println("payment is: " + payment);
         this.partnershipId = payment.getPartnershipId();
 
         Gson gson = new Gson();
