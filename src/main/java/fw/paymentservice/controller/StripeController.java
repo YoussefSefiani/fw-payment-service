@@ -22,9 +22,9 @@ public class StripeController {
         this.paymentService = paymentService;
     }
 
-    @PostMapping(value = "/payment/")
-    public String payPartnership(Long partnershipId, CheckoutPayment payment) throws StripeException {
-       return paymentService.payPartnership(partnershipId, payment);
+    @PostMapping(value = "/payment")
+    public String payPartnership(CheckoutPayment payment) throws StripeException {
+       return paymentService.payPartnership(payment);
     }
 
     @PostMapping(value = "/stripe-events")
