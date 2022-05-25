@@ -3,12 +3,12 @@ package fw.paymentservice.service;
 import com.google.gson.Gson;
 import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
-import com.stripe.model.Charge;
 import com.stripe.model.Event;
 import com.stripe.model.checkout.Session;
 import com.stripe.net.Webhook;
 import com.stripe.param.checkout.SessionCreateParams;
 import fw.paymentservice.model.CheckoutPayment;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -27,7 +27,6 @@ public class PaymentService {
 
     @Value("${stripe.secretWebHook}")
     String stripeWebhookSecret;
-
 
     public String payPartnership(CheckoutPayment payment) throws StripeException {
         Gson gson = new Gson();
@@ -60,7 +59,7 @@ public class PaymentService {
 
     }
 
-    public void postEventsWebhook(HttpServletRequest request, HttpServletResponse response) {
+    public HttpServletResponse postEventsWebhook(HttpServletRequest request, HttpServletResponse response) {
 
         Stripe.apiKey = stripeApiKey;
 
@@ -75,28 +74,16 @@ public class PaymentService {
 
                 Event event = Webhook.constructEvent(payload, sigHeader, endpointSecret);
 
-
-                if ("charge.refunded".equalsIgnoreCase(event.getType())) {
-
-                    Gson gson = new Gson();
-                    Charge charge = gson.fromJson(event.getData().getObject().toJson(), Charge.class);
-                    // Call your service here with your Charge object.
-                    System.out.println(charge);
+                if("checkout.session.completed".equalsIgnoreCase(event.getType())) {
+                    response.setStatus(200);
+                } else {
+                    response.setStatus(500);
                 }
-                response.setStatus(200);
-                System.out.println(response);
-                System.out.println("OBJECT");
-                System.out.println(event.getObject());
-                System.out.println("DATA");
-                System.out.println(event.getData());
-                System.out.println("TYPE");
-                System.out.println(event.getType());
             }
         } catch (Exception e) {
             response.setStatus(500);
-            System.out.println(response);
-            System.out.println(e.getMessage());
         }
+        return response;
     }
 
     private static void init() {

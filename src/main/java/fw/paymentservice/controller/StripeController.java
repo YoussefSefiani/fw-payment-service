@@ -29,8 +29,8 @@ public class StripeController {
     }
 
     @PostMapping(value = "/stripe-events")
-    public void postEventsWebhook(HttpServletRequest request, HttpServletResponse response) throws StripeException {
-        paymentService.postEventsWebhook(request, response);
+    public HttpServletResponse postEventsWebhook(HttpServletRequest request, HttpServletResponse response) throws StripeException {
+        return paymentService.postEventsWebhook(request, response);
     }
 
 

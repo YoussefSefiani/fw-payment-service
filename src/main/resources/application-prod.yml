@@ -20,3 +20,8 @@ stripe:
   secretKey: 'sk_test_51L2waTAKK7UhTIYhWZ0gap86miBgGOg7GX8NTKVum9cSyUdceoKrjFgrWhvAjBwVDQXz1wVq5aw6vCkyOOwSpBAS003FVAjo7e'
 #  secretWebHook: 'whsec_d3c5f78220fb933cee234cb20968355fb1aa97e5690ce35ccc98c36a58e32428'
   secretWebHook: 'whsec_EN3kKFivC2zN7GPlrLjqNomC934rojVx'
+
+app:
+  services:
+    profile:
+      url: https://fw-partnership-service.herokuapp.com
