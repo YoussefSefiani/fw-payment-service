@@ -22,7 +22,7 @@ public class StripeController {
         this.paymentService = paymentService;
     }
 
-    @GetMapping(path = "ping")
+    @GetMapping(path = "payment/ping")
     public String ping() {
         return "pong";
     }
