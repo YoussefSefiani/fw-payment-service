@@ -22,6 +22,11 @@ public class StripeController {
         this.paymentService = paymentService;
     }
 
+    @GetMapping(path = "ping")
+    public String ping() {
+        return "pong";
+    }
+
     @PostMapping(value = "/payment")
     public String payPartnership(@RequestBody CheckoutPayment payment) throws StripeException {
        return paymentService.payPartnership(payment);
