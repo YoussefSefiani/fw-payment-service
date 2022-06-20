@@ -48,11 +48,8 @@ public class PaymentService {
         this.partnershipId = payment.getPartnershipId();
 
         Gson gson = new Gson();
-        // We initialize stripe object with the api key
         init();
-        // We create a  stripe session parameters
         SessionCreateParams params = SessionCreateParams.builder()
-                // We will use the credit card payment method
                 .addPaymentMethodType(SessionCreateParams.PaymentMethodType.CARD)
                 .setMode(SessionCreateParams.Mode.PAYMENT).setSuccessUrl(payment.getSuccessUrl())
                 .setCancelUrl(
@@ -67,12 +64,10 @@ public class PaymentService {
                                                 .build())
                                 .build())
                 .build();
-        // create a stripe session
+
         Session session = Session.create(params);
         Map<String, String> responseData = new HashMap<>();
-        // We get the sessionId and we put inside the response data you can get more info from the session object
         responseData.put("id", session.getId());
-        // We can return only the sessionId as a String
         return gson.toJson(responseData);
 
     }

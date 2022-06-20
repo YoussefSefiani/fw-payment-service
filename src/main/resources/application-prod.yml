@@ -10,18 +10,17 @@ spring:
 eureka:
   client:
     serviceUrl:
-      defaultZone: ${EUREKA_URL:http://user:password@localhost:8761}/eureka/
+      defaultZone: https://fw-discovery-server.azurewebsites.net/eureka
   instance:
-    hostname: ${DOMAIN_NAME}
+    hostname: fw-payment-service.azurewebsites.net
     nonSecurePort: 80
   password: ${USER_PASSWORD:password}
 
 stripe:
   secretKey: 'sk_test_51L2waTAKK7UhTIYhWZ0gap86miBgGOg7GX8NTKVum9cSyUdceoKrjFgrWhvAjBwVDQXz1wVq5aw6vCkyOOwSpBAS003FVAjo7e'
-#  secretWebHook: 'whsec_d3c5f78220fb933cee234cb20968355fb1aa97e5690ce35ccc98c36a58e32428'
   secretWebHook: 'whsec_Q1fU0hovc7yvPyM92XfOx062egs3XQl9'
 
 app:
   services:
     partnership:
-      url: https://fw-partnership-service.herokuapp.com
+      url: https://fw-partnership-service.azurewebsites.net
