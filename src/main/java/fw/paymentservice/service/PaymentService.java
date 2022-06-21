@@ -82,8 +82,6 @@ public class PaymentService {
             if (!StringUtils.isEmpty(payload)) {
                 String sigHeader = request.getHeader("Stripe-Signature");
                 String endpointSecret = stripeWebhookSecret;
-                System.out.println("WEB HOOK " + stripeWebhookSecret);
-                System.out.println("api Key " + stripeApiKey);
 
                 Event event = Webhook.constructEvent(payload, sigHeader, endpointSecret);
 
